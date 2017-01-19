@@ -24,12 +24,16 @@ namespace SemiPlausibleRandomizer
             {
                 var path = dialog.SelectedPath;
 
+                // Load all localisations
+                localisation.AddFromDirectory(path + @"\localisation");
+
                 // Load regions
                 var regions = ParaValue.LoadText(path + @"\map\region.txt") as ParaValue.Record;
-                var regionNames = regions.properties.Select(x => x.Item1).Skip(1);  // We skip the first region because it's special for the Random New World
+                var regionNames = regions.properties.Skip(1).Select(x => localisation[x.Item1]);  // We skip the first region because it's special for the Random New World
                 RegionList.Items.AddRange(regionNames.ToArray());
-
             }
         }
+
+        Localisation localisation = new Localisation();
     }
 }
