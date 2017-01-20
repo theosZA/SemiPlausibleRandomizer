@@ -60,13 +60,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Localisation.cs" />
+    <Compile Include="EU4\Localisation.cs" />
+    <Compile Include="EU4\Region.cs" />
+    <Compile Include="EU4\RegionCollection.cs" />
+    <Compile Include="EU4\World.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ParaValueHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">

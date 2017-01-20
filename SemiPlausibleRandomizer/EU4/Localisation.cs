@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using YamlDotNet.RepresentationModel;
 
-namespace SemiPlausibleRandomizer
+namespace SemiPlausibleRandomizer.EU4
 {
     /// <summary>
     /// Holds the localisations for each string in the Paradox game.
