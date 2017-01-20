@@ -1,4 +1,5 @@
 ﻿using SemiPlausibleRandomizer.EU4;
+using SemiPlausibleRandomizer.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -35,12 +36,18 @@ namespace SemiPlausibleRandomizer.Mod
             provinces.Add(homeProvince);
         }
 
-        public void DetermineCountryNames()
+        public void FinalizeCountries()
         {
             // For now we just name each country after it's capital province.
             foreach (var country in countries)
             {
                 countryNames[country.Key] = EU4World.GetProvince(country.CapitalProvinceKey).GetName(EU4World.Localisation);
+            }
+
+            // Each country gets a solid flag of its colour.
+            foreach (var country in countries)
+            {
+                countryFlags[country.Key] = new TgaImage(128, 128, country.Color);
             }
         }
 
@@ -63,6 +70,8 @@ namespace SemiPlausibleRandomizer.Mod
             Directory.CreateDirectory($"{ourModPath}\\common\\countries");
             Directory.CreateDirectory($"{ourModPath}\\common\\country_tags");
             Directory.CreateDirectory($"{ourModPath}\\localisation");
+            Directory.CreateDirectory($"{ourModPath}\\gfx");
+            Directory.CreateDirectory($"{ourModPath}\\gfx\\flags");
 
             // Create the country files.
             foreach (var country in countries)
@@ -87,6 +96,12 @@ namespace SemiPlausibleRandomizer.Mod
                 countryNamesLines.Add($" {countryName.Key}_ADJ:0 \"{countryName.Value}\"");
             }
             File.WriteAllLines($"{ourModPath}\\localisation\\randomized_countries_l_english.yml", countryNamesLines);
+
+            // Save flags.
+            foreach (var countryFlag in countryFlags)
+            {
+                countryFlag.Value.Save($"{ourModPath}\\gfx\\flags\\{countryFlag.Key}.tga");
+            }
         }
 
         private string CountryIndexToTag(int index)
@@ -107,5 +122,6 @@ namespace SemiPlausibleRandomizer.Mod
         List<Country> countries = new List<Country>();
         List<Province> provinces = new List<Province>();
         Dictionary<string, string> countryNames = new Dictionary<string, string>();
+        Dictionary<string, TgaImage> countryFlags = new Dictionary<string, TgaImage>();
     }
 }

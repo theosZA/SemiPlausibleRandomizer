@@ -69,6 +69,7 @@
     <Compile Include="EU4\Region.cs" />
     <Compile Include="EU4\RegionCollection.cs" />
     <Compile Include="EU4\World.cs" />
+    <Compile Include="Graphics\TgaImage.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
