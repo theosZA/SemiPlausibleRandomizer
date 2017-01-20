@@ -1,9 +1,7 @@
 ﻿using Pfarah;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
 namespace SemiPlausibleRandomizer.EU4
 {
@@ -34,6 +32,11 @@ namespace SemiPlausibleRandomizer.EU4
                     }
                 }
             }
+        }
+
+        public IEnumerable<Region> GetRegionsByName(Localisation localisation, IEnumerable<string> regionNames)
+        {
+            return regions.Where(i => regionNames.Contains(i.Value.GetName(localisation))).Select(i => i.Value);
         }
 
         public IEnumerable<string> GetAllRegionNames(Localisation localisation)

@@ -60,7 +60,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EU4\Area.cs" />
+    <Compile Include="EU4\AreaCollection.cs" />
     <Compile Include="EU4\Localisation.cs" />
+    <Compile Include="EU4\Province.cs" />
+    <Compile Include="EU4\ProvinceCollection.cs" />
     <Compile Include="EU4\Region.cs" />
     <Compile Include="EU4\RegionCollection.cs" />
     <Compile Include="EU4\World.cs" />

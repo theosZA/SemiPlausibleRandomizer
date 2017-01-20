@@ -27,6 +27,20 @@ namespace SemiPlausibleRandomizer
             }
         }
 
+        private void RegionList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Wait until after the item checked status is update before updating our view.
+            BeginInvoke((MethodInvoker)(
+                () =>
+                {
+                    var selectedRegionNames = RegionList.CheckedItems.Cast<string>();
+                    var regionCount = selectedRegionNames.Count();
+                    var areaCount = world.GetAreasInRegions(selectedRegionNames).Count();
+                    var provinceCount = world.GetProvincesInRegions(selectedRegionNames).Count();
+                    SelectionRegionsInfo.Text = $"{regionCount} regions, {areaCount} areas, {provinceCount} provinces";
+                }));
+        }
+
         EU4.World world = new EU4.World();
     }
 }

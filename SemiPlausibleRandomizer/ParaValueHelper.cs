@@ -30,15 +30,41 @@ namespace SemiPlausibleRandomizer
             return false;
         }
 
-        public static IEnumerable<string> ToStringArray(this ParaValue value)
+        public static int GetInt(this ParaValue.Record record, string key)
+        {
+            return (int)((record.Get(key) as ParaValue.Number).Item);
+        }
+
+        public static int GetInt(this ParaValue.Record record, string key, int defaultValue)
+        {
+            if (record.TryGet(key, out var value) && value.IsNumber)
+            {
+                return (int)((value as ParaValue.Number).Item);
+            }
+            return defaultValue;
+        }
+
+        public static IEnumerable<string> ToStringCollection(this ParaValue value)
         {
             if (value.IsArray)
             {
-                return (value as ParaValue.Array).elements.Select(x => (x as ParaValue.String).Item);
+                return (value as ParaValue.Array).elements.Where(x => x.IsString).Select(x => (x as ParaValue.String).Item);
             }
             else
             {
                 return Enumerable.Empty<string>();
+            }
+        }
+
+        public static IEnumerable<int> ToIntCollection(this ParaValue value)
+        {
+            if (value.IsArray)
+            {
+                return (value as ParaValue.Array).elements.Where(x => x.IsNumber).Select(x => (int)((x as ParaValue.Number).Item));
+            }
+            else
+            {
+                return Enumerable.Empty<int>();
             }
         }
     }
