@@ -20,7 +20,8 @@ namespace SemiPlausibleRandomizer
             };
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                world.LoadFromDirectory(dialog.SelectedPath);
+                eu4Path = dialog.SelectedPath;
+                world.LoadFromDirectory(eu4Path);
 
                 // Populate controls.
                 RegionList.Items.AddRange(world.GetAllRegionNames().ToArray());
@@ -41,6 +42,15 @@ namespace SemiPlausibleRandomizer
                 }));
         }
 
+        private void CreateModButton_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            var randomizer = new Randomizer(world);
+            randomizer.CreateRandomMod(RegionList.CheckedItems.Cast<string>(), ".");    // Create mod locally for now
+            Cursor = Cursors.Default;
+        }
+
         EU4.World world = new EU4.World();
+        string eu4Path = null;
     }
 }

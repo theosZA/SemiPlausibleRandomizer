@@ -31,6 +31,7 @@
             this.RegionList = new System.Windows.Forms.CheckedListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.SelectionRegionsInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.CreateModButton = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,11 +60,22 @@
             this.SelectionRegionsInfo.Size = new System.Drawing.Size(163, 17);
             this.SelectionRegionsInfo.Text = "0 regions, 0 areas, 0 provinces";
             // 
+            // CreateModButton
+            // 
+            this.CreateModButton.Location = new System.Drawing.Point(60, 348);
+            this.CreateModButton.Name = "CreateModButton";
+            this.CreateModButton.Size = new System.Drawing.Size(75, 23);
+            this.CreateModButton.TabIndex = 2;
+            this.CreateModButton.Text = "Create Mod";
+            this.CreateModButton.UseVisualStyleBackColor = true;
+            this.CreateModButton.Click += new System.EventHandler(this.CreateModButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(457, 480);
+            this.Controls.Add(this.CreateModButton);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.RegionList);
             this.Name = "MainForm";
@@ -81,6 +93,7 @@
         private System.Windows.Forms.CheckedListBox RegionList;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel SelectionRegionsInfo;
+        private System.Windows.Forms.Button CreateModButton;
     }
 }
 

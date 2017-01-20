@@ -30,11 +30,19 @@ namespace SemiPlausibleRandomizer
             return false;
         }
 
-        public static int GetInt(this ParaValue.Record record, string key)
+        public static string GetString(this ParaValue.Record record, string key)
         {
-            return (int)((record.Get(key) as ParaValue.Number).Item);
+            return (record.Get(key) as ParaValue.String).Item;
         }
 
+        public static string GetString(this ParaValue.Record record, string key, string defaultValue)
+        {
+            if (record.TryGet(key, out var value) && value.IsString)
+            {
+                return (value as ParaValue.String).Item;
+            }
+            return defaultValue;
+        }
         public static int GetInt(this ParaValue.Record record, string key, int defaultValue)
         {
             if (record.TryGet(key, out var value) && value.IsNumber)
@@ -42,6 +50,30 @@ namespace SemiPlausibleRandomizer
                 return (int)((value as ParaValue.Number).Item);
             }
             return defaultValue;
+        }
+
+        public static bool GetBool(this ParaValue.Record record, string key, bool defaultValue = false)
+        {
+            if (record.TryGet(key, out var value) && value.IsString)
+            {
+                return (value as ParaValue.String).Item == "yes";
+            }
+            return defaultValue;
+        }
+
+        public static IEnumerable<ParaValue.Record> GetAllRecords(this ParaValue.Record record, string key)
+        {
+            return record.properties.Where(item => item.Item1 == key && item.Item2.IsRecord).Select(item => item.Item2 as ParaValue.Record);
+        }
+
+        public static IEnumerable<string> GetAllStrings(this ParaValue.Record record, string key)
+        {
+            return record.properties.Where(item => item.Item1 == key && item.Item2.IsString).Select(item => (item.Item2 as ParaValue.String).Item);
+        }
+
+        public static int GetInt(this ParaValue.Record record, string key)
+        {
+            return (int)((record.Get(key) as ParaValue.Number).Item);
         }
 
         public static IEnumerable<string> ToStringCollection(this ParaValue value)
