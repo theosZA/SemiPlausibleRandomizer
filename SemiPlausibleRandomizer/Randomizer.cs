@@ -30,6 +30,7 @@ namespace SemiPlausibleRandomizer
             {
                 mod.AddNewCountry(province);
             }
+            mod.DetermineCountryNames();
 
             mod.Save(modPath);
         }

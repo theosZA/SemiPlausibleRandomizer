@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace SemiPlausibleRandomizer.Mod
 {
@@ -34,6 +35,15 @@ namespace SemiPlausibleRandomizer.Mod
             provinces.Add(homeProvince);
         }
 
+        public void DetermineCountryNames()
+        {
+            // For now we just name each country after it's capital province.
+            foreach (var country in countries)
+            {
+                countryNames[country.Key] = EU4World.GetProvince(country.CapitalProvinceKey).GetName(EU4World.Localisation);
+            }
+        }
+
         public void Save(string modPath)
         {
             // Create the mod.
@@ -52,6 +62,7 @@ namespace SemiPlausibleRandomizer.Mod
             Directory.CreateDirectory($"{ourModPath}\\common");
             Directory.CreateDirectory($"{ourModPath}\\common\\countries");
             Directory.CreateDirectory($"{ourModPath}\\common\\country_tags");
+            Directory.CreateDirectory($"{ourModPath}\\localisation");
 
             // Create the country files.
             foreach (var country in countries)
@@ -66,6 +77,16 @@ namespace SemiPlausibleRandomizer.Mod
             {
                 province.Save($"{ourModPath}\\history\\provinces");
             }
+
+            // Save country names.
+            var countryNamesLines = new List<string>();
+            countryNamesLines.Add("\xfeffl_english:");  // include BOM as it's required by EU4
+            foreach (var countryName in countryNames)
+            {
+                countryNamesLines.Add($" {countryName.Key}:0 \"{countryName.Value}\"");
+                countryNamesLines.Add($" {countryName.Key}_ADJ:0 \"{countryName.Value}\"");
+            }
+            File.WriteAllLines($"{ourModPath}\\localisation\\randomized_countries_l_english.yml", countryNamesLines);
         }
 
         private string CountryIndexToTag(int index)
@@ -85,5 +106,6 @@ namespace SemiPlausibleRandomizer.Mod
 
         List<Country> countries = new List<Country>();
         List<Province> provinces = new List<Province>();
+        Dictionary<string, string> countryNames = new Dictionary<string, string>();
     }
 }

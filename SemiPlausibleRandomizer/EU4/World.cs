@@ -21,6 +21,21 @@ namespace SemiPlausibleRandomizer.EU4
             provinces.LoadAll(eu4Path);
         }
 
+        public Region GetRegion(string key)
+        {
+            return regions[key];
+        }
+
+        public Area GetArea(string key)
+        {
+            return areas[key];
+        }
+
+        public Province GetProvince(int key)
+        {
+            return provinces[key];
+        }
+
         public IEnumerable<string> GetAllRegionNames()
         {
             return regions.GetAllRegionNames(Localisation);
