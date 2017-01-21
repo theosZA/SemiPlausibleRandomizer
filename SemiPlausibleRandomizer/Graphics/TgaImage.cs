@@ -19,7 +19,7 @@ namespace SemiPlausibleRandomizer.Graphics
 
         public void Save(string fileName)
         {
-            using (var writer = new BinaryWriter(new FileStream(fileName, FileMode.CreateNew)))
+            using (var writer = new BinaryWriter(new FileStream(fileName, FileMode.Create)))
             {
                 writer.Write((byte)0);  // Image ID length
                 writer.Write((byte)0);  // Color map type = none
