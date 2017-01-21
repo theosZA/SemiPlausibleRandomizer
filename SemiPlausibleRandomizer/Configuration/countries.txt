@@ -332,7 +332,7 @@ HIN = { region = hindusthan_region }
 HOB = { province = 2783 }
 #HOD
 HOL = { province = 97 }
-#HSA -- handled with trade league mechanics
+HSA = { province = 45 }
 HSC = {
 	area = highlands_area
 	culture = highland_scottish
@@ -708,7 +708,7 @@ RAG = { province = 137 }
 RIG = { province = 38 }
 RMN = { culture = romanian }
 RMP = { province = 2061 }
-#ROM -- convertor
+#ROM -- supra-regional formable or convertor import
 RUS = {
 	region = russia_region
 	culture = russian
