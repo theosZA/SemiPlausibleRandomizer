@@ -26,6 +26,8 @@ namespace SemiPlausibleRandomizer.EU4
         public IEnumerable<string> DiscoveredBy { get; set; }
         public IEnumerable<ParaValue.Record> PermanentModifiers { get; set; }
 
+        public IEnumerable<int> AdjacentProvinces { get; set; }
+
         public int Development
         {
             get => BaseTax + BaseProduction + BaseManpower;

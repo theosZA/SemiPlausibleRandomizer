@@ -1,5 +1,4 @@
-﻿using Pfarah;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -27,6 +26,14 @@ namespace SemiPlausibleRandomizer.EU4
                 var province = new Province();
                 province.LoadFromFile(key, provinceHistoryFile);
                 provinces[key] = province;
+            }
+
+            // Determine province adjacencies.
+            var provinceAdjacency = new ProvinceAdjacency();
+            provinceAdjacency.Load(eu4Path);
+            foreach (var province in provinces)
+            {
+                province.Value.AdjacentProvinces = provinceAdjacency[province.Key];
             }
         }
 

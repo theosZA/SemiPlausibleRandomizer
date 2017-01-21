@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace SemiPlausibleRandomizer.Mod
 {
@@ -14,8 +13,40 @@ namespace SemiPlausibleRandomizer.Mod
         public string Name { get; set; }
         public string EU4Version { get; set; }
         public World EU4World { get; set; }
+        public IEnumerable<Province> Provinces { get; set; }
 
-        public void AddNewCountry(Province homeProvince)
+        public Country AddNewRandomCountry()
+        {
+            var availableProvinces = Provinces.Except(usedProvinces);
+            if (availableProvinces.Count() == 0)
+            {
+                return null;
+            }
+            int randomIndex = random.Next(availableProvinces.Count());
+            return AddNewCountry(availableProvinces.Skip(randomIndex).First());
+        }
+
+        /// <summary>
+        /// Adds a province to a random eligible country.
+        /// </summary>
+        /// <returns>True if a province could be added. False if no more provinces are available.</returns>
+        public bool AddProvinceToRandomCountry()
+        {
+            var country = GetRandomCountry();
+            if (country == null)
+            {
+                country = AddNewRandomCountry();
+                if (country == null)
+                {
+                    return false;
+                }
+            }
+            var province = PickProvinceToAddToCountry(country.Key);
+            AddProvinceToCountry(country.Key, province);
+            return true;
+        }
+
+        public Country AddNewCountry(Province homeProvince)
         {
             var country = new Country()
             {
@@ -30,10 +61,52 @@ namespace SemiPlausibleRandomizer.Mod
                 CapitalProvinceKey = homeProvince.Key
             };
             countries.Add(country);
-            homeProvince.Owner = country.Key;
-            homeProvince.Controller = country.Key;
-            homeProvince.Cores = new string[] { country.Key };
-            provinces.Add(homeProvince);
+            AddProvinceToCountry(country.Key, homeProvince);
+            return country;
+        }
+
+        public void AddProvinceToCountry(string countryKey, Province province)
+        {
+            if (province == null)
+            {
+                return;
+            }
+            province.Owner = countryKey;
+            province.Controller = countryKey;
+            province.Cores = new string[] { countryKey };
+            usedProvinces.Add(province);
+        }
+
+        /// <summary>
+        /// Returns a random country in the mod that is still allowed to grow.
+        /// </summary>
+        /// <returns>A country that is allowed to grow. May be null if no countries are allowed to grow.</returns>
+        /// <remarks>For now there are no limits on country growth so any country could be returned as long as it has an available adjacent province.</remarks>
+        public Country GetRandomCountry()
+        {
+            var availableCountries = countries.Where(c => GetAllAvailableAdjacentProvinces(c.Key).Count() > 0);
+            if (availableCountries.Count() == 0)
+            {
+                return null;
+            }
+            int randomIndex = random.Next(availableCountries.Count());
+            return availableCountries.Skip(randomIndex).First();
+        }
+
+        /// <summary>
+        /// Returns a province that can be added to the specified country.
+        /// </summary>
+        /// <param name="countryKey">The key (tag) of the country to have a province added to.</param>
+        /// <returns>An unused province that can be added to the country. May be null if no such province is found.</returns>
+        public Province PickProvinceToAddToCountry(string countryKey)
+        {
+            var candidateProvinces = GetAllAvailableAdjacentProvinces(countryKey);
+            if (candidateProvinces.Count() == 0)
+            {   // This country can't grow.
+                return null;    
+            }
+            int randomIndex = random.Next(candidateProvinces.Count());
+            return candidateProvinces.Skip(randomIndex).First();
         }
 
         public void FinalizeCountries()
@@ -44,7 +117,7 @@ namespace SemiPlausibleRandomizer.Mod
             var tagMapping = tagAssignment.AssignTags(countries);
 
             // Reassign provinces to the new tags.
-            foreach (var province in provinces)
+            foreach (var province in Provinces)
             {
                 if (tagMapping.ContainsKey(province.Owner))
                 {
@@ -104,7 +177,7 @@ namespace SemiPlausibleRandomizer.Mod
                                countries.Select(country => $"{country.Key} = \"countries/{country.Key}.txt\"").ToArray());
 
             // Create the province files.
-            foreach (var province in provinces)
+            foreach (var province in Provinces)
             {
                 province.Save($"{ourModPath}\\history\\provinces");
             }
@@ -126,7 +199,24 @@ namespace SemiPlausibleRandomizer.Mod
             }
         }
 
-        private string CountryIndexToTag(int index)
+        IEnumerable<Province> GetAllProvincesOwnedByCountry(string countryKey)
+        {
+            return Provinces.Where(p => p.Owner == countryKey);
+        }
+
+        IEnumerable<Province> GetAllAvailableAdjacentProvinces(string countryKey)
+        {
+            var provincesInCountry = GetAllProvincesOwnedByCountry(countryKey);
+            var adjacentProvinces = new List<Province>();
+            foreach (var province in provincesInCountry)
+            {
+                var currentAdjacentProvinces = province.AdjacentProvinces.Select(k => EU4World.GetProvince(k)).Intersect(Provinces);
+                adjacentProvinces.AddRange(currentAdjacentProvinces);
+            }
+            return adjacentProvinces.Distinct().Except(usedProvinces);
+        }
+
+        string CountryIndexToTag(int index)
         {
             int value = index % 100;
             const string prefixChars = "RSTUVWXYZQPONMLKJIHGFEDBA"; // C is reserved for colonial nations
@@ -134,7 +224,7 @@ namespace SemiPlausibleRandomizer.Mod
             return $"{prefix}{value / 10}{value % 10}";
         }
 
-        private Color GetNextRandomColor()
+        Color GetNextRandomColor()
         {
             return Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
         }
@@ -142,7 +232,7 @@ namespace SemiPlausibleRandomizer.Mod
         Random random = new Random();
 
         List<Country> countries = new List<Country>();
-        List<Province> provinces = new List<Province>();
+        List<Province> usedProvinces = new List<Province>();
         Dictionary<string, string> countryNames = new Dictionary<string, string>();
         Dictionary<string, TgaImage> countryFlags = new Dictionary<string, TgaImage>();
     }

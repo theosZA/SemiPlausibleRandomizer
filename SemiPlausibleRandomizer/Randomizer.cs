@@ -17,21 +17,25 @@ namespace SemiPlausibleRandomizer
         /// <param name="regions">Regions in which to create the new countries.</param>
         public void CreateRandomMod(IEnumerable<string> regionNames, string modPath)
         {
-            var provinces = world.GetProvincesInRegions(regionNames);
-
-            // For now we make one country per province.
             var mod = new EU4Mod()
             {
                 Name = "Randomized World",
                 EU4Version = "1.19",
-                EU4World = world
+                EU4World = world,
+                Provinces = world.GetProvincesInRegions(regionNames)
             };
-            foreach (var province in provinces)
-            {
-                mod.AddNewCountry(province);
-            }
-            mod.FinalizeCountries();
 
+            // For now we just make 10 countries.
+            // Choose a home province for each of them.
+            for (int i = 0; i < 10; ++i)
+            {
+                mod.AddNewRandomCountry();
+            }
+            // Now grow them until no provinces are left.
+            while (mod.AddProvinceToRandomCountry())
+            {}
+
+            mod.FinalizeCountries();
             mod.Save(modPath);
         }
 

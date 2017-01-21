@@ -65,6 +65,7 @@
     <Compile Include="EU4\Country.cs" />
     <Compile Include="EU4\Localisation.cs" />
     <Compile Include="EU4\Province.cs" />
+    <Compile Include="EU4\ProvinceAdjacency.cs" />
     <Compile Include="EU4\ProvinceCollection.cs" />
     <Compile Include="EU4\Region.cs" />
     <Compile Include="EU4\RegionCollection.cs" />
