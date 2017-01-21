@@ -54,9 +54,9 @@ namespace SemiPlausibleRandomizer
 
         public static bool GetBool(this ParaValue.Record record, string key, bool defaultValue = false)
         {
-            if (record.TryGet(key, out var value) && value.IsString)
+            if (record.TryGet(key, out var value) && value.IsBool)
             {
-                return (value as ParaValue.String).Item == "yes";
+                return (value as ParaValue.Bool).Item;
             }
             return defaultValue;
         }
