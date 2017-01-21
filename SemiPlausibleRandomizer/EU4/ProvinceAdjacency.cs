@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using SemiPlausibleRandomizer.Graphics;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace SemiPlausibleRandomizer.EU4
 {
@@ -20,49 +22,14 @@ namespace SemiPlausibleRandomizer.EU4
 
             using (var map = new Bitmap(eu4Path + @"\map\provinces.bmp"))
             {
-                // For each pixel on the map, see if it's adjacent to a different coloured pixel.
-                // If that's the case, then we have an adjacency.
-                for (int y = 0; y < map.Height; ++y)
-                    for (int x = 0; x < map.Width; ++x)
-                    {
-                        var pixel = map.GetPixel(x, y);
-                        var provinceID = colourToProvinceID[pixel];
-                        if (y > 0)
-                        {
-                            CheckAndAddAdjacency(provinceID, colourToProvinceID, map, x, y - 1);
-                        }
-                        if (y < map.Height - 1)
-                        {
-                            CheckAndAddAdjacency(provinceID, colourToProvinceID, map, x, y + 1);
-                        }
-                        CheckAndAddAdjacency(provinceID, colourToProvinceID, map, (x + 1) % map.Width, y);
-                        CheckAndAddAdjacency(provinceID, colourToProvinceID, map, (x + map.Width - 1) % map.Width, y);
-                    }
-            }
-        }
-
-        void CheckAndAddAdjacency(int startProvinceID, IDictionary<Color, int> colourToProvinceMapping, Bitmap map, int x, int y)
-        {
-            var pixel = map.GetPixel(x, y);
-            if (colourToProvinceMapping.TryGetValue(pixel, out int endProvinceID))
-            {
-                if (startProvinceID != endProvinceID)
+                var colourAdjacencies = map.CalculateAreaAdjacency();
+                foreach (var colourAdjacency in colourAdjacencies)
                 {
-                    AddAdjacency(startProvinceID, endProvinceID);
+                    if (colourToProvinceID.TryGetValue(colourAdjacency.Key, out int provinceID))
+                    {
+                        adjacencies[provinceID] = colourAdjacency.Value.Where(c => colourToProvinceID.ContainsKey(c)).Select(c => colourToProvinceID[c]);
+                    }
                 }
-            }
-        }
-
-        void AddAdjacency(int start, int end)
-        {
-            if (adjacencies.TryGetValue(start, out var startAdjacencies))
-            {
-                startAdjacencies.Add(end);
-            }
-            else
-            {
-                adjacencies.Add(start, new HashSet<int>());
-                adjacencies[start].Add(end);
             }
         }
 
@@ -85,6 +52,6 @@ namespace SemiPlausibleRandomizer.EU4
             return colourToProvinceID;
         }
 
-        IDictionary<int, ISet<int>> adjacencies = new Dictionary<int, ISet<int>>();
+        IDictionary<int, IEnumerable<int>> adjacencies = new Dictionary<int, IEnumerable<int>>();
     }
 }
