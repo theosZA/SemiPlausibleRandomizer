@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SemiPlausibleRandomizer.Mod;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -58,6 +59,9 @@ namespace SemiPlausibleRandomizer
         private void CreateModButton_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+
+            var provinces = world.GetProvincesInRegions(RegionList.CheckedItems.Cast<string>());
+
             var countrySizeLimits = new List<Tuple<int, int>>();
             if (countryCount0.Value > 0)
             {
@@ -72,8 +76,11 @@ namespace SemiPlausibleRandomizer
                 countrySizeLimits.Add(new Tuple<int, int>((int)countryCount2.Value, (int)developmentLimit2.Value));
             }
             countrySizeLimits.Add(new Tuple<int, int>(int.MaxValue, (int)developmentLimitFinal.Value));
-            var randomizer = new Randomizer(world);
-            randomizer.CreateRandomMod(RegionList.CheckedItems.Cast<string>(), countrySizeLimits, ".");    // Create mod locally for now
+
+            var mod = new EU4Mod();
+            mod.Build(world, provinces, countrySizeLimits);
+            mod.Save(".", "Randomized World", "1.19");  // Create mod locally for now.
+
             Cursor = Cursors.Default;
         }
 

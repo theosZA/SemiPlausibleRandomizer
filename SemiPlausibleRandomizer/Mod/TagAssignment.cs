@@ -3,8 +3,6 @@ using SemiPlausibleRandomizer.EU4;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SemiPlausibleRandomizer.Mod
 {
@@ -37,21 +35,17 @@ namespace SemiPlausibleRandomizer.Mod
         /// For each country provided, see if we can assign it one of our tags.
         /// </summary>
         /// <param name="countries">Countries that we wish to substitute with existing tags.</param>
-        /// <returns>A mapping from the provided country tags in the countries parameter to one of our tags.</returns>
-        /// <remarks>For now, the capital province only is used to assign tags.</remarks>
-        public IDictionary<string, string> AssignTags(IEnumerable<Country> countries)
+        public void AssignTags(IEnumerable<CountryBuilder> countries)
         {
-            var assignments = new Dictionary<string, string>();
             foreach (var country in countries)
             {
                 // Find a tag which has this country's capital province as a province assignment.
-                var matchingElement = tagAssignments.FirstOrDefault(i => i.Value.Exists(j => j.type == AssignmentType.Province && j.provinceID.HasValue && j.provinceID == country.CapitalProvinceKey));
-                if (!EqualityComparer<KeyValuePair<string, List<AssignmentDetail>>>.Default.Equals(matchingElement, default(KeyValuePair<string, List<AssignmentDetail>>)))
+                var matchingElements = tagAssignments.Where(i => i.Value.Exists(j => j.type == AssignmentType.Province && j.provinceID.HasValue && j.provinceID == country.Capital.Key));
+                if (matchingElements.Count() > 0)
                 {
-                    assignments.Add(country.Key, matchingElement.Key);
+                    country.Tag = matchingElements.First().Key;
                 }
             }
-            return assignments;
         }
 
         enum AssignmentType
