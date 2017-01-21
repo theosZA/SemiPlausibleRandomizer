@@ -14,16 +14,25 @@ namespace SemiPlausibleRandomizer.Mod
         public string EU4Version { get; set; }
         public World EU4World { get; set; }
         public IEnumerable<Province> Provinces { get; set; }
+        /// <summary>
+        /// For each tuple (a, b) there can be no more than a countries with more than b development.
+        /// </summary>
+        public IEnumerable<Tuple<int, int>> CountrySizeLimits { get; set; }
 
-        public Country AddNewRandomCountry()
+        /// <summary>
+        /// Adds a number of countries for the largest size limit specified.
+        /// </summary>
+        public void AddRandomStartCountries()
         {
-            var availableProvinces = Provinces.Except(usedProvinces);
-            if (availableProvinces.Count() == 0)
+            var numCountries = CountrySizeLimits.Aggregate((a, b) => a.Item2 > b.Item2 ? a : b).Item1;
+            if (numCountries > Provinces.Count())
             {
-                return null;
+                numCountries = Provinces.Count();
             }
-            int randomIndex = random.Next(availableProvinces.Count());
-            return AddNewCountry(availableProvinces.Skip(randomIndex).First());
+            for (int i = 0; i < numCountries; ++i)
+            {
+                AddNewRandomCountry();
+            }
         }
 
         /// <summary>
@@ -44,69 +53,6 @@ namespace SemiPlausibleRandomizer.Mod
             var province = PickProvinceToAddToCountry(country.Key);
             AddProvinceToCountry(country.Key, province);
             return true;
-        }
-
-        public Country AddNewCountry(Province homeProvince)
-        {
-            var country = new Country()
-            {
-                Key = CountryIndexToTag(countries.Count),
-                GraphicalCulture = "westerngfx",
-                Color = GetNextRandomColor(),
-                Government = "feudal_monarchy",
-                GovernmentRank = 1,
-                PrimaryCulture = homeProvince.Culture,
-                Religion = homeProvince.Religion,
-                TechnologyGroup = "western",
-                CapitalProvinceKey = homeProvince.Key
-            };
-            countries.Add(country);
-            AddProvinceToCountry(country.Key, homeProvince);
-            return country;
-        }
-
-        public void AddProvinceToCountry(string countryKey, Province province)
-        {
-            if (province == null)
-            {
-                return;
-            }
-            province.Owner = countryKey;
-            province.Controller = countryKey;
-            province.Cores = new string[] { countryKey };
-            usedProvinces.Add(province);
-        }
-
-        /// <summary>
-        /// Returns a random country in the mod that is still allowed to grow.
-        /// </summary>
-        /// <returns>A country that is allowed to grow. May be null if no countries are allowed to grow.</returns>
-        /// <remarks>For now there are no limits on country growth so any country could be returned as long as it has an available adjacent province.</remarks>
-        public Country GetRandomCountry()
-        {
-            var availableCountries = countries.Where(c => GetAllAvailableAdjacentProvinces(c.Key).Count() > 0);
-            if (availableCountries.Count() == 0)
-            {
-                return null;
-            }
-            int randomIndex = random.Next(availableCountries.Count());
-            return availableCountries.Skip(randomIndex).First();
-        }
-
-        /// <summary>
-        /// Returns a province that can be added to the specified country.
-        /// </summary>
-        /// <param name="countryKey">The key (tag) of the country to have a province added to.</param>
-        /// <returns>An unused province that can be added to the country. May be null if no such province is found.</returns>
-        public Province PickProvinceToAddToCountry(string countryKey)
-        {
-            var candidateProvinces = GetAllAvailableAdjacentProvinces(countryKey);
-            if (candidateProvinces.Count() == 0)
-            {   // This country can't grow.
-                return null;    
-            }
-            int randomIndex = random.Next(candidateProvinces.Count());
-            return candidateProvinces.Skip(randomIndex).First();
         }
 
         public void FinalizeCountries()
@@ -199,6 +145,107 @@ namespace SemiPlausibleRandomizer.Mod
             }
         }
 
+        void AddProvinceToCountry(string countryKey, Province province)
+        {
+            if (province == null)
+            {
+                return;
+            }
+            province.Owner = countryKey;
+            province.Controller = countryKey;
+            province.Cores = new string[] { countryKey };
+            usedProvinces.Add(province);
+            countryDevelopment[countryKey] += province.Development;
+        }
+
+        Country AddNewRandomCountry()
+        {
+            var availableProvinces = Provinces.Except(usedProvinces);
+            if (availableProvinces.Count() == 0)
+            {
+                return null;
+            }
+            int randomIndex = random.Next(availableProvinces.Count());
+            return AddNewCountry(availableProvinces.Skip(randomIndex).First());
+        }
+
+        Country AddNewCountry(Province homeProvince)
+        {
+            var country = new Country()
+            {
+                Key = CountryIndexToTag(countries.Count),
+                GraphicalCulture = "westerngfx",
+                Color = GetNextRandomColor(),
+                Government = "feudal_monarchy",
+                GovernmentRank = 1,
+                PrimaryCulture = homeProvince.Culture,
+                Religion = homeProvince.Religion,
+                TechnologyGroup = "western",
+                CapitalProvinceKey = homeProvince.Key
+            };
+            countries.Add(country);
+            countryDevelopment[country.Key] = 0;
+            AddProvinceToCountry(country.Key, homeProvince);
+            return country;
+        }
+
+        /// <summary>
+        /// Returns a random country in the mod that is still allowed to grow.
+        /// </summary>
+        /// <returns>A country that is allowed to grow. May be null if no countries are allowed to grow.</returns>
+        /// <remarks>For now there are no limits on country growth so any country could be returned as long as it has an available adjacent province.</remarks>
+        Country GetRandomCountry()
+        {
+            var maxAllowedDevelopment = CalculateMaxAllowedDevelopment();
+
+            var availableCountries = countries.Where(c => countryDevelopment[c.Key] < maxAllowedDevelopment && GetAllAvailableAdjacentProvinces(c.Key).Count() > 0);
+            if (availableCountries.Count() == 0)
+            {
+                return null;
+            }
+            int randomIndex = random.Next(availableCountries.Count());
+            return availableCountries.Skip(randomIndex).First();
+        }
+
+        /// <summary>
+        /// Calculates the maximum development allowed for countries to still be able to grow.
+        /// </summary>
+        /// <returns>Countries with this amount of development or less are still allowed to grow.</returns>
+        int CalculateMaxAllowedDevelopment()
+        {
+            int maxLimitUnreached = 0;
+            foreach (var limit in CountrySizeLimits)
+            {
+                int developmentLimit = limit.Item2;
+                if (developmentLimit > maxLimitUnreached)
+                {
+                    int countriesAllowed = limit.Item1;
+                    int countriesOverLimit = countries.Where(c => countryDevelopment[c.Key] > developmentLimit).Count();
+                    if (countriesOverLimit < countriesAllowed)
+                    {
+                        maxLimitUnreached = developmentLimit;
+                    }
+                }
+            }
+            return maxLimitUnreached;
+        }
+
+        /// <summary>
+        /// Returns a province that can be added to the specified country.
+        /// </summary>
+        /// <param name="countryKey">The key (tag) of the country to have a province added to.</param>
+        /// <returns>An unused province that can be added to the country. May be null if no such province is found.</returns>
+        Province PickProvinceToAddToCountry(string countryKey)
+        {
+            var candidateProvinces = GetAllAvailableAdjacentProvinces(countryKey);
+            if (candidateProvinces.Count() == 0)
+            {   // This country can't grow.
+                return null;    
+            }
+            int randomIndex = random.Next(candidateProvinces.Count());
+            return candidateProvinces.Skip(randomIndex).First();
+        }
+
         IEnumerable<Province> GetAllProvincesOwnedByCountry(string countryKey)
         {
             return Provinces.Where(p => p.Owner == countryKey);
@@ -233,6 +280,7 @@ namespace SemiPlausibleRandomizer.Mod
 
         List<Country> countries = new List<Country>();
         List<Province> usedProvinces = new List<Province>();
+        Dictionary<string, int> countryDevelopment = new Dictionary<string, int>();
         Dictionary<string, string> countryNames = new Dictionary<string, string>();
         Dictionary<string, TgaImage> countryFlags = new Dictionary<string, TgaImage>();
     }
