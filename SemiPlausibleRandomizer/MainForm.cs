@@ -37,8 +37,10 @@ namespace SemiPlausibleRandomizer
                     var selectedRegionNames = RegionList.CheckedItems.Cast<string>();
                     var regionCount = selectedRegionNames.Count();
                     var areaCount = world.GetAreasInRegions(selectedRegionNames).Count();
-                    var provinceCount = world.GetProvincesInRegions(selectedRegionNames).Count();
-                    SelectionRegionsInfo.Text = $"{regionCount} regions, {areaCount} areas, {provinceCount} provinces";
+                    var provinces = world.GetProvincesInRegions(selectedRegionNames);
+                    var provinceCount = provinces.Count();
+                    var totalDevelopment = provinces.Sum(i => i.Development);
+                    SelectionRegionsInfo.Text = $"{regionCount} regions, {areaCount} areas, {provinceCount} provinces - {totalDevelopment} total development";
                 }));
         }
 
