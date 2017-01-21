@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SemiPlausibleRandomizer.EU4
 {
-    class ProvinceCollection
+    internal class ProvinceCollection
     {
         public Province this[int key]
         {
@@ -40,6 +40,11 @@ namespace SemiPlausibleRandomizer.EU4
         public IEnumerable<string> GetAllProvinceNames(Localisation localisation)
         {
             return provinces.Select(i => i.Value.GetName(localisation));
+        }
+
+        public IEnumerable<Province> GetProvincesWithCulture(string cultureKey)
+        {
+            return provinces.Where(p => p.Value.Culture == cultureKey).Select(p => p.Value);
         }
 
         Dictionary<int, Province> provinces = new Dictionary<int, Province>();

@@ -94,6 +94,11 @@ namespace SemiPlausibleRandomizer.EU4
             return areas[areaKey].ProvinceKeys.Select(key => provinces[key]);
         }
 
+        public IEnumerable<Province> GetProvincesWithCulture(string cultureKey)
+        {
+            return provinces.GetProvincesWithCulture(cultureKey);
+        }
+
         public Region GetRegionContainingProvince(int provinceID)
         {
             return regions.GetRegionContainingArea(GetAreaContainingProvince(provinceID).Key);

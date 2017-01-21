@@ -73,6 +73,22 @@ namespace SemiPlausibleRandomizer.Mod
                     }
                 }
 
+                // Does the country have 75%+ of its culture?
+                var culture = country.Capital.Culture;
+                var cultureProvinces = referenceWorld.GetProvincesWithCulture(culture);
+                var countryCultureProvinces = cultureProvinces.Intersect(country.Provinces);
+                if (countryCultureProvinces.Count() >= 0.75 * cultureProvinces.Count())
+                {
+                    // Try to find a culture tag.
+                    var cultureTag = FindMatchingTag(AssignmentType.Culture, culture);
+                    if (cultureTag != null && !usedTags.Contains(cultureTag))
+                    {
+                        country.Tag = cultureTag;
+                        usedTags.Add(cultureTag);
+                        continue;
+                    }
+                }
+
                 // Try find a province tag.
                 var provinceTag = FindMatchingProvinceTag(country.Capital.Key);
                 if (provinceTag != null && !usedTags.Contains(provinceTag))
