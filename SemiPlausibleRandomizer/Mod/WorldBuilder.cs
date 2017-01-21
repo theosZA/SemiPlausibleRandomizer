@@ -226,7 +226,7 @@ namespace SemiPlausibleRandomizer.Mod
             // Check for pre-defined tags.
             var tagAssignment = new TagAssignment();
             tagAssignment.LoadFromFile("countries.txt");
-            tagAssignment.AssignTags(countries);
+            tagAssignment.AssignTags(countries, EU4World);
             // Allocate generated tags to the rest.
             int countryIndex = 0;
             foreach (var country in countries)

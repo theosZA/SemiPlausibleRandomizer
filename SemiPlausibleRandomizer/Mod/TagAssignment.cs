@@ -35,17 +35,83 @@ namespace SemiPlausibleRandomizer.Mod
         /// For each country provided, see if we can assign it one of our tags.
         /// </summary>
         /// <param name="countries">Countries that we wish to substitute with existing tags.</param>
-        public void AssignTags(IEnumerable<CountryBuilder> countries)
+        /// <param name="referenceWorld">World object that can be used to look up more information for tag assignment.</param>
+        public void AssignTags(IEnumerable<CountryBuilder> countries, World referenceWorld)
         {
+            var usedTags = new HashSet<string>();
             foreach (var country in countries)
             {
-                // Find a tag which has this country's capital province as a province assignment.
-                var matchingElements = tagAssignments.Where(i => i.Value.Exists(j => j.type == AssignmentType.Province && j.provinceID.HasValue && j.provinceID == country.Capital.Key));
-                if (matchingElements.Count() > 0)
+                // Does the country occupy 75%+ of its capital region?
+                var region = referenceWorld.GetRegionContainingProvince(country.Capital.Key);
+                var regionProvinces = referenceWorld.GetProvincesInRegion(region.Key);
+                var countryProvincesInRegion = regionProvinces.Intersect(country.Provinces);
+                if (countryProvincesInRegion.Count() >= 0.75 * regionProvinces.Count())
                 {
-                    country.Tag = matchingElements.First().Key;
+                    // Try find a region tag.
+                    var regionTag = FindMatchingTag(AssignmentType.Region, region.Key);
+                    if (regionTag != null && !usedTags.Contains(regionTag))
+                    {
+                        country.Tag = regionTag;
+                        usedTags.Add(regionTag);
+                        continue;
+                    }
+                }
+
+                // Does the country occupy 75%+ of its capital area?
+                var area = referenceWorld.GetAreaContainingProvince(country.Capital.Key);
+                var areaProvinces = referenceWorld.GetProvincesInArea(area.Key);
+                var countryProvincesInArea = areaProvinces.Intersect(country.Provinces);
+                if (countryProvincesInArea.Count() >= 0.75 * areaProvinces.Count())
+                {
+                    // Try find an area tag.
+                    var areaTag = FindMatchingTag(AssignmentType.Area, area.Key);
+                    if (areaTag != null && !usedTags.Contains(areaTag))
+                    {
+                        country.Tag = areaTag;
+                        usedTags.Add(areaTag);
+                        continue;
+                    }
+                }
+
+                // Try find a province tag.
+                var provinceTag = FindMatchingProvinceTag(country.Capital.Key);
+                if (provinceTag != null && !usedTags.Contains(provinceTag))
+                {
+                    country.Tag = provinceTag;
+                    usedTags.Add(provinceTag);
+                    continue;
                 }
             }
+        }
+
+        string FindMatchingTag(AssignmentType type, string key)
+        {
+            foreach (var tagAssignment in tagAssignments)
+            {
+                foreach (var assignment in tagAssignment.Value)
+                {
+                    if (assignment.type == type && assignment.key == key)
+                    {
+                        return tagAssignment.Key;
+                    }
+                }
+            }
+            return null;
+        }
+
+        string FindMatchingProvinceTag(int provinceID)
+        {
+            foreach (var tagAssignment in tagAssignments)
+            {
+                foreach (var assignment in tagAssignment.Value)
+                {
+                    if (assignment.type == AssignmentType.Province && assignment.provinceID == provinceID)
+                    {
+                        return tagAssignment.Key;
+                    }
+                }
+            }
+            return null;
         }
 
         enum AssignmentType

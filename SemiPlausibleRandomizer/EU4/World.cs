@@ -62,6 +62,11 @@ namespace SemiPlausibleRandomizer.EU4
             return areaKeys.Select(key => areas[key]);
         }
 
+        public IEnumerable<Area> GetAreasInRegion(string regionKey)
+        {
+            return regions[regionKey].AreaKeys.Select(key => areas[key]);
+        }
+
         public IEnumerable<Province> GetProvincesInRegions(IEnumerable<string> regionNames)
         {
             var provinceKeys = new List<int>();
@@ -71,6 +76,22 @@ namespace SemiPlausibleRandomizer.EU4
                 provinceKeys.AddRange(area.ProvinceKeys);
             }
             return provinceKeys.Select(key => provinces[key]);
+        }
+
+        public IEnumerable<Province> GetProvincesInRegion(string regionKey)
+        {
+            var provinceKeys = new List<int>();
+            var areas = GetAreasInRegion(regionKey);
+            foreach (var area in areas)
+            {
+                provinceKeys.AddRange(area.ProvinceKeys);
+            }
+            return provinceKeys.Select(key => provinces[key]);
+        }
+
+        public IEnumerable<Province> GetProvincesInArea(string areaKey)
+        {
+            return areas[areaKey].ProvinceKeys.Select(key => provinces[key]);
         }
 
         public Region GetRegionContainingProvince(int provinceID)
