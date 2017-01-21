@@ -44,6 +44,13 @@ namespace SemiPlausibleRandomizer.EU4
             return regions.Select(i => i.Value.GetName(localisation));
         }
 
+        public Region GetRegionContainingArea(string areaKey)
+        {
+            return regions.Where(t => t.Value.AreaKeys.Contains(areaKey))
+                          .Select(t => t.Value)
+                          .FirstOrDefault();
+        }
+
         Dictionary<string, Region> regions = new Dictionary<string, Region>();
     }
 }

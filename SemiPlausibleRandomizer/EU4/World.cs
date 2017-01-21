@@ -73,6 +73,16 @@ namespace SemiPlausibleRandomizer.EU4
             return provinceKeys.Select(key => provinces[key]);
         }
 
+        public Region GetRegionContainingProvince(int provinceID)
+        {
+            return regions.GetRegionContainingArea(GetAreaContainingProvince(provinceID).Key);
+        }
+
+        public Area GetAreaContainingProvince(int provinceID)
+        {
+            return areas.GetAreaContainingProvince(provinceID);
+        }
+
         RegionCollection regions = new RegionCollection();
         AreaCollection areas = new AreaCollection();
         ProvinceCollection provinces = new ProvinceCollection();

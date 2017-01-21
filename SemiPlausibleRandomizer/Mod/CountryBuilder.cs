@@ -24,6 +24,34 @@ namespace SemiPlausibleRandomizer.Mod
             provinces.Add(newProvince);
         }
 
+        /// <summary>
+        /// Given a province, assign a score to it indicating how preferable it would be to add this province to the country.
+        /// </summary>
+        /// <param name="province">A province that could be added to the country.</param>
+        /// <param name="referenceWorld">World object that can be used to look up more contextual information related to the province.</param>
+        /// <returns>A preference score. The minimum possible value is 1.</returns>
+        public int CalculatePreferenceScore(Province province, World referenceWorld)
+        {
+            int score = 1;
+            if (province.Culture == Capital.Culture)
+            {
+                score += 100;
+            }
+            if (province.Religion == Capital.Religion)
+            {
+                score += 50;
+            }
+            if (referenceWorld.GetAreaContainingProvince(Capital.Key).ProvinceKeys.Contains(province.Key))
+            {
+                score += 125;
+            }
+            if (referenceWorld.GetRegionContainingProvince(Capital.Key) == referenceWorld.GetRegionContainingProvince(province.Key))
+            {
+                score += 60;
+            }
+            return score;
+        }
+
         public void UpdateProvinces()
         {
             foreach (var province in provinces)

@@ -1,6 +1,5 @@
 ﻿using Pfarah;
 using System.Collections.Generic;
-using System;
 using System.Linq;
 
 namespace SemiPlausibleRandomizer.EU4
@@ -30,6 +29,13 @@ namespace SemiPlausibleRandomizer.EU4
         public IEnumerable<string> GetAllAreaNames(Localisation localisation)
         {
             return areas.Select(i => i.Value.GetName(localisation));
+        }
+
+        public Area GetAreaContainingProvince(int provinceID)
+        {
+            return areas.Where(t => t.Value.ProvinceKeys.Contains(provinceID))
+                        .Select(t => t.Value)
+                        .FirstOrDefault();
         }
 
         Dictionary<string, Area> areas = new Dictionary<string, Area>();

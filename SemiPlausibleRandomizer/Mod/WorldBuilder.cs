@@ -157,8 +157,23 @@ namespace SemiPlausibleRandomizer.Mod
             {   // This country can't grow.
                 return null;
             }
-            int randomIndex = random.Next(candidateProvinces.Count());
-            return candidateProvinces.Skip(randomIndex).First();
+
+            var preferenceScores = new Dictionary<Province, int>();
+            foreach (var province in candidateProvinces)
+            {
+                preferenceScores[province] = country.CalculatePreferenceScore(province, EU4World);
+            }
+            int randomValue = random.Next(preferenceScores.Sum(t => t.Value));
+            int cumulativeValue = 0;
+            foreach (var pair in preferenceScores)
+            {
+                cumulativeValue += pair.Value;
+                if (randomValue < cumulativeValue)
+                {
+                    return pair.Key;
+                }
+            }
+            throw new Exception("Unexpected end of range reached when picking a province to add to country");
         }
 
         /// <summary>
