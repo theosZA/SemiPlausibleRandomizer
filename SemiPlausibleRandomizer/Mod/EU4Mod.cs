@@ -38,6 +38,28 @@ namespace SemiPlausibleRandomizer.Mod
 
         public void FinalizeCountries()
         {
+            // For each of our countries, see what pre-existing tag we can assign it.
+            var tagAssignment = new TagAssignment();
+            tagAssignment.LoadFromFile("countries.txt");
+            var tagMapping = tagAssignment.AssignTags(countries);
+
+            // Reassign provinces to the new tags.
+            foreach (var province in provinces)
+            {
+                if (tagMapping.ContainsKey(province.Owner))
+                {
+                    province.Owner = tagMapping[province.Owner];
+                }
+                if (tagMapping.ContainsKey(province.Controller))
+                {
+                    province.Controller = tagMapping[province.Controller];
+                }
+                province.Cores = province.Cores.Select(i => tagMapping.ContainsKey(i) ? tagMapping[i] : i);
+            }
+
+            // Remove the old countries.
+            countries.RemoveAll(i => tagMapping.ContainsKey(i.Key));
+
             // For now we just name each country after it's capital province.
             foreach (var country in countries)
             {
@@ -107,7 +129,7 @@ namespace SemiPlausibleRandomizer.Mod
         private string CountryIndexToTag(int index)
         {
             int value = index % 100;
-            const string prefixChars = "RSTUVWXYZQPONMLKJIHGFEDCBA";
+            const string prefixChars = "RSTUVWXYZQPONMLKJIHGFEDBA"; // C is reserved for colonial nations
             char prefix = prefixChars[index / 100];
             return $"{prefix}{value / 10}{value % 10}";
         }

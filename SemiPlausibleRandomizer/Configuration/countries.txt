@@ -1,0 +1,924 @@
+# For each country (identified by their TAG) we specify what that country represents.
+# Options are:
+# 1. Province: province = {province ID}
+# 2. Area: area = {area ID}
+# 3. Region: region = {region ID}
+# 4. Culture: culture = {culture ID}
+# 5. Culture Group: culture_group = {culture group ID}
+# In some cases more than one option is possible.
+
+AAC = { province = 1878 }
+#ABB
+ABE = { province = 971 }
+ACH = { province = 1773 }
+#ADA
+#ADE
+ADU = { culture = andalucian }
+#AFA
+AFG = { culture = afghani }
+#AHM
+#AIR
+#AJU
+#AKK
+ALB = {
+	area = albania_area
+	culture = albanian
+}
+ALE = { province = 1879 }
+ALG = {
+	area = algiers_area
+	culture = algerian
+}
+#ALH
+#ALO
+ALS = { province = 75 }
+#AMA
+AMG = { province = 175 }
+ANH = { province = 58 }
+#ANN
+ANS = { province = 71 }
+#ANT
+#ANU
+APA = { province = 879 }
+AQU = { province = 111 }	# province of Friuli
+ARA = { area = aragon_area }
+ARB = { region = arabia_region }
+#ARD
+#ARK
+ARM = {
+	area = armenia_area
+	culture = armenian
+}
+ARP = { province = 899 }	# in the default game they are actually much further north than their province's namesake
+#ARW
+#ASA
+#ASH
+#ASI
+#ASS
+AST = {
+	area = astrakhan_area
+	province = 464
+	culture = astrakhani
+}
+ATH = { province = 146 }
+#ATJ
+AUG = { province = 1868 }
+#AUS -- independent colonial
+AUV = { province = 199 }
+#AVA
+AVI = { province = 202 }
+#AYD
+#AYU
+AZT = { culture = aztek }
+BAD = { province = 74 }
+#BAH
+BAL = { culture = baluchi }
+#BAN
+BAR = { province = 187 }
+BAV = { culture = bavarian }
+BDA = { province = 516 }
+#BEI
+#BEJ
+#BEN
+BER = { province = 179 }
+#BGA
+BGL = { province = 2097 }
+#BHA
+#BHT
+#BHU
+BIJ = { province = 569 }
+BLA = { culture = blackfoot }
+BLI = { province = 631 }
+BLM = { province = 627 }
+BND = { province = 559 }
+BNG = { culture = bengali }
+BNJ = { province = 639 }
+#BNY
+BOH = { area = bohemia_area }
+BON = { province = 2254 }
+BOS = { area = bosnia_area }
+BOU = { province = 190 }
+BRA = { province = 50 }		# province of Berlin
+BRB = { province = 92 }
+BRE = { province = 1874 }
+BRI = { area = brittany_area }
+BRR = { province = 548 }
+BRT = { culture = buryat }
+BRU = { area = braunschweig_area }
+#BRZ -- independent colonial
+#BSG
+BSH = { culture = bashkir }
+BST = { province = 547 }
+BTI = { province = 2771 }
+BTN = { province = 2716 }
+#BTS
+#BUG
+BUK = { province = 442 }
+BUL = {
+	area = bulgaria_area
+	culture = bulgarian
+}
+BUR = {
+	area = bourgogne_area
+	culture = burgundian
+}
+#BUU
+BYZ = { province = 151 }	# province of Constantinople
+CAB = { culture = carib }
+CAD = {
+	province = 894
+	culture = caddo 
+}
+#CAM -- independent colonial
+#CAN -- independent colonial
+CAS = { 
+	area = castille_area
+	culture = castillian
+}
+CAT = {
+	area = catalonia_area
+	culture = catalan
+}
+#CCQ
+CDL = { province = 661 }
+CEP = { province = 142 }
+CEY = { area = lanka_area }
+#CGS
+CHA = { culture = cham }
+#CHC
+#CHD
+CHE = { culture = cherokee }
+#CHG
+CHH = { culture = chahar }
+CHI = {
+	province = 919
+	culture = chickasaw
+}
+CHK = { province = 608 }
+#CHL -- -- independent colonial
+CHM = { culture = chimuan }
+CHO = {
+	province = 920
+	culture = choctaw
+}
+CHP = { province = 186 }
+CHR = { province = 289 }
+#CHU
+#CHV
+CHY = { culture = cheyenne }
+CIR = {
+	area = circassia_area
+	province = 463
+	culture = circassian
+}
+#CJA
+CKW = {
+	province = 4095
+	culture = chokwe
+}
+#CLA
+#CLM
+CMI = { culture = miao }
+CMP = { province = 2056 }
+#CND
+CNK = {
+	province = 873
+	culture = chinook
+}
+CNN = { province = 376 }	# province of Connacht
+#COC
+COL = { region = colombia_region }
+#COM
+COR = { province = 1247 }
+CRA = { province = 2942 }
+#CRB
+CRE = { culture = creek }
+CRI = {
+	area = crimea_area
+	province = 284
+	culture = crimean
+}
+CRN = { province = 233 }
+CRO = {
+	area = croatia_area
+	culture = croatian
+}
+CRT = { province = 163 }
+#CSH
+#CSK
+CSU = { province = 808 }
+CUA = { culture = charruan }
+#CXI
+CYA = { culture = chachapoyan }
+#CYI
+CYP = { province = 321 }
+#CZH
+#DAH
+#DAI
+DAM = { province = 2762 }
+DAN = { culture = danish }
+DAR = { province = 1219 }
+DAU = { province = 204 }
+#DEC
+#DGB
+DGL = { province = 1248 }
+#DHU
+DLH = { province = 522 }
+DMK = { province = 629 }
+DMS = { province = 4118 }	# province of Deas-Mhumhain
+DNZ = { province = 43 }
+#DTE
+DTT = { province = 4141 }
+DUL = { province = 332 }
+EFR = { province = 1931 }
+EGY = { region = egypt_region }
+ENA = { province = 2758 }
+ENG = { culture = english }
+EPI = { province = 144 }	# province of Ioannina (Yanya) - the Despotate of Epirus was actually split across parts of Albania and Northern Greece
+#ERE
+EST = {
+	area = estonia_ingria_area
+	culture = estonian
+}
+#ETH
+#ETR  -- equivalent to Tuscany (TUS)
+FEO = { province = 2410 }
+FER = { province = 113 }
+FEZ = { province = 343 }
+FIN = {
+	area = finland_area
+	culture = finnish
+}
+FLA = { area = flanders_area }
+FOI = { province = 176 }	# province of Bearn
+FOX = { province = 945 }
+FRA = {
+	region = france_region
+	culture_group = french
+	culture = cosmopolitan_french
+}
+FRI = { province = 100 }
+FRN = { province = 1876 }
+#FUL
+#FZA
+GAL = {
+	province = 206
+	culture = galician
+}
+#GAZ
+GBR = {
+	region = british_isles_region
+	culture_group = british
+}
+#GDW
+GEL = { province = 99 }
+GEN = { province = 101 }
+GEO = {
+	area = georgia_area
+	culture = georgian
+}
+GER = {
+	culture_group = germanic
+	region = germany_region
+	region = north_german_region
+	region = south_german_region
+}
+#GHD
+GHR = { province = 511 }
+#GLE
+#GLH
+GOC = { province = 542 }
+#GOL
+GOT = { province = 25 }
+GRA = { province = 223 }
+GRE = { culture = greek }
+GRJ = { culture = garjati }
+#GRM
+GUA = { culture = guarani }
+#GUG
+GUJ = { culture = gujarati }
+GUY = {
+	area = pyrenees_area
+	culture = gascon
+}
+GWA = { province = 525 }
+HAB = { culture = austrian }
+#HAD
+HAI = { province = 91 }
+HAM = { province = 44 }
+HAN = {
+	province = 57
+	culture = hannoverian
+}
+HAR = { province = 1211 }
+#HAT -- independent colonial
+HAU = { culture = hausa }
+HDA = {
+	province = 2022
+	culture = haida
+}
+HDY = { province = 2760 }
+#HED
+HES = {
+	area = hesse_area
+	province = 81
+	culture = hessian
+}
+HIN = { region = hindusthan_region }
+#HJA
+#HJO
+#HLR -- handled with HRE mechanics
+#HMI
+HOB = { province = 2783 }
+#HOD
+HOL = { province = 97 }
+#HSA -- handled with trade league mechanics
+HSC = {
+	area = highlands_area
+	culture = highland_scottish
+}
+HSE = { province = 583 }
+#HSK
+#HTK
+#HUA
+HUN = { culture = hungarian }
+HUR = {
+	province = 988
+	culture = huron
+}
+ICE = { area = iceland_area }
+#ICM
+#IKE
+ILL = {
+	province = 915
+	culture = illini
+}
+IME = { province = 422 }
+#IMG
+INC = { culture = inca }
+IRE = { culture = irish }
+IRO = { culture = iroquois }
+IRQ = { culture = al_iraqiya_arabic }
+ITA = { region = italy_region }
+#ITZ
+JAI = { 
+	province = 126
+	culture = maltese
+}
+JAJ = { province = 2089 }
+#JAN
+JAP = {
+	region = japan_region
+	culture_group = japanese_g
+	# missing Japan daimyo mechanics
+}
+JFN = { province = 2100 }
+#JIM
+JIN = { culture = jin }
+JJI = { province = 4158 }
+#JMN -- not used
+#JNN
+JNP = { province = 555 }
+JOH = { province = 597 }
+#JOL
+JSL = { province = 513 }
+#KAC
+KAF = { province = 2757 }
+#KAM
+#KAN
+KAR = { province = 324 }
+#KAS
+#KAT
+KAZ = { province = 1082 }
+KBA = { province = 339 }
+#KBO
+#KBU
+KED = { province = 2394 }
+KGR = { province = 509 }
+#KHA
+#KHD
+#KHI
+KHM = { culture = khmer }
+KHO = {
+	province = 436
+	culture = khorasani
+}
+#KIC
+KID = { province = 4120 }
+KIE = { province = 280 }
+#KIK
+KIO = { culture = kiowa }
+KLD = { province = 4096 }
+KLE = { province = 2975 }
+KLK = { culture = khalkha }
+#KLN
+#KMC
+KMT = { province = 562 }
+KNG = { area = kong_area }
+#KNI
+KOC = { province = 535 }
+#KOJ
+KOK = { province = 458 }
+KOL = { province = 85 }
+KON = {
+	region = kongo_region
+	area = kongo_area
+}
+KOR = {
+	region = korea_region
+	culture = korean
+}
+KRA = { province = 262 }
+#KRC
+#KRK
+KRL = { culture = karelian }
+KRW = { province = 4063 }
+#KSD
+KSH = { 
+	area = kashmir_area
+	culture = kashmiri 
+}
+KSJ = { province = 4082 }
+#KTS
+KUB = { province = 4089 }
+KUR = { area = curonia_area }
+KUT = { province = 638 }
+#KZB
+KZH = { culture = khazak }
+LAN = { province = 116 }
+#LAP -- independent colonial
+LAU = { province = 1857 }
+LDK = { province = 2074 }
+LDU = { province = 4039 }
+#LEB
+LEI = { province = 374 }	# province of Laighin
+LEN = { province = 956 }
+#LFA
+LIE = { province = 93 }
+#LIG
+LIT = { culture = lithuanian }
+#LIV
+#LNA
+LND = { culture = lunda }
+#LNG
+LNO = { province = 653 }
+LOA = { province = 1166 }
+LON = {
+	area = leon_area
+	culture = leonese
+}
+LOR = { area = lorraine_area }
+#LOU -- independent colonial
+LUA = { province = 615 }
+LUB = { province = 4097 }
+LUC = { province = 2980 }
+LUN = { province = 53 }
+#LUW
+LUX = { province = 94 }
+LVA = { area = livonia_area }
+#LXA
+#MAB
+#MAD
+#MAE
+MAG = { province = 52 }
+MAH = { culture = mahican }
+MAI = { province = 78 }
+#MAJ
+#MAK
+MAL = { culture = mali }
+#MAM
+MAN = { province = 109 }
+MAR = { culture = marathi }
+#MAW
+#MAY
+MAZ = { area = mazovia_area }
+MBA = { province = 1202 }
+MCA = { culture = muisca }
+MCH = {
+	region = manchuria_region
+	culture = manchu
+}
+MDI = { province = 1205 }
+#MED
+MEI = { province = 61 }
+MEM = { province = 68 }
+#MEN
+#MER
+MEW = { province = 520 }
+# MEX -- independent colonial
+MFA = { province = 2981 }
+#MFY
+MGD = { province = 652 }
+#MHX
+MIK = { culture = mikmaq }
+#MIN
+#MIR
+MIX = {
+	province = 847
+	culture = mixtec 
+}
+#MJE
+#MJZ
+MKL = { province = 46 }
+MKS = { province = 641 }
+MKU = {
+	province = 4034
+	culture = makua
+}
+#MLB
+MLC = { province = 596 }
+MLI = { province = 1203 }
+MLO = { province = 104 }
+#MLW
+MMI = { province = 943 }
+#MNG
+MNS = { province = 375 }	# province of Tuadhmhumhain
+MOD = { province = 106 }
+MOE = { area = morea_area }
+MOL = { area = moldavia_area }
+MON = { province = 138 }	# province of Zeta
+MOR = { culture = moroccan }
+MOS = { 
+	area = moscow_area
+	province = 295
+}
+MPC = { culture = mapuche }
+#MPH
+#MRA
+#MRE
+#MRI
+MSA = { 
+	region = malaya_region
+	area = malaya_area
+	culture = malayan
+}
+MSI = { culture = mossi }
+MTH = { province = 373 }	# province of Pale
+#MTR
+#MUG
+MUL = { province = 506 }
+MUN = { province = 86 }
+MYA = { province = 582 }
+#MYR
+MYS = { province = 533 }
+MZB = { province = 2457 }
+NAG = { province = 546 }
+NAH = {
+	province = 878
+	culture = navajo
+}
+#NAJ
+NAP = {
+	area = naples_area
+	province = 121
+	culture = neapolitan
+}
+#NAT -- special
+NAV = { province = 210 }
+NAX = { province = 164 }
+#NDO
+NED = {
+	region = low_countries_region
+	area = netherlands_area 
+}
+NEV = { province = 191 }
+NGA = { province = 2066 }
+NGP = {
+	province = 560
+	culture = jharkhandi
+}
+#NKO
+#NNG
+NOG = { culture = nogaybak }
+NOL = { province = 246 }
+NOR = { culture = norwegian }
+NOV = {
+	area = novgorod_area
+	province = 310
+	culture = novgorodian
+}
+NPL = { 
+	area = nepalese_area
+	culture = nepali 
+}
+NRM = {
+	area = normandy_area
+	province = 168
+	culture = normand
+}
+NSA = { province = 83 }
+#NUB
+NUM = { province = 67 }
+NUP = { culture = nupe }
+NZH = { province = 306 }
+#ODA
+#ODH
+#OIR
+#OJI
+OKA = { province = 4116 }
+OLD = { province = 55 }
+OMA = { 
+	area = oman_area
+	culture = omani_culture 
+}
+#ORI
+ORL = { province = 184 }
+ORM = { province = 2999 }
+OSA = {
+	province = 899
+	culture = osage
+}
+#OTM
+#OTT
+#OUC
+#OYO
+PAL = { area = palatinate_area }
+PAP = { province = 118 }
+PAR = { province = 105 }
+PAT = { province = 594 }
+PAW = {
+	province = 901
+	culture = pawnee
+}
+#PCJ
+PEG = { province = 586 }
+PEQ = { culture = pequot }
+PER = {
+	region = persia_region
+	culture = persian
+}
+#PEU -- independent colonial
+PGR = { province = 2681 }
+PIC = { province = 89 }
+PIM = {
+	province = 877
+	culture = piman
+}
+#PIR -- special
+PIS = { province = 115 }
+PLB = { province = 622 }
+#PLC -- specific union within our own timeline
+PLT = { province = 275 }
+POL = {
+	region = poland_region
+	culture = polish
+}
+POM = {
+	culture = pommeranian
+	area = hinter_pommern_area
+}
+POR = { culture = portugese }
+POT = { province = 944 }
+POW = {
+	province = 952
+	culture = powhatan
+}
+#PRG -- independent colonial
+PRK = { province = 595 }
+PRM = { area = perm_area }
+PRO = {
+	area = provence_area
+	province = 201
+}
+PRU = { culture = prussian }
+PSA = { province = 2673 }
+PSK = {
+	area = pskov_area
+	province = 274
+}
+#PTA
+PTE = { province = 2796 }
+#PTG
+PUE = {
+	province = 880
+	culture = pueblo
+}
+PUN = { culture = panjabi }
+#QAR
+#QAS
+#QIC
+#QIN
+#QNG
+QTO = { province = 820 }
+#QUE -- independent colonial
+RAG = { province = 137 }
+#RAM
+#REB -- special
+#RFR
+RIG = { province = 38 }
+RMN = { culture = romanian }
+RMP = { province = 2061 }
+#ROM -- convertor
+RUS = {
+	region = russia_region
+	culture = russian
+}
+RVA = { province = 69 }
+#RWA
+RYA = { 
+	area = ryazan_area
+	province = 301 
+}
+RYU = { province = 1015 }
+RZW = { province = 1185 }
+SAK = { province = 620 }
+SAL = {
+	province = 874
+	culture = salish
+}
+SAR = { culture = sardinian }
+SAV = {
+	area = savoy_dauphine_area
+	province = 205
+}
+SAX = { culture = saxon }
+#SBA
+SCA = {
+	region = scandinavia_region
+	culture_group = scandinavian
+}
+SCO = { culture = scottish }
+#SDY
+SER = {
+	area = serbia_area
+	culture = serbian
+}
+SFA = { province = 1186 }
+SHA = { culture = shawnee }
+SHL = { province = 1775 }
+SHM = { province = 393 }
+SHO = { culture = shoshone }
+SHR = { province = 398 }
+#SHU
+#SHY
+SIB = { culture = siberian }
+SIC = {
+	area = sicily_area
+	culture = sicilian
+}
+SIE = { province = 117 }
+SIL = { area = silesia_area }
+#SIO
+#SKA
+SLN = { province = 4119 }
+SLO = {
+	area = slovakia_area
+	culture = slovak
+}
+SLZ = { province = 76 }
+SMI = { culture = sapmi }
+SMO = {
+	area = smolensk_area
+	province = 293
+}
+#SMZ
+SND = { culture = sindhi }
+#SOA
+#SOF
+#SOK
+SON = { culture = songhai }
+SOS = { 
+	area = sus_area
+	province = 348 
+}
+SPA = {
+	region = iberia_region
+	culture_group = iberian
+}
+#SPI -- specific union within our own timeline
+SRU = { province = 2297 }
+#SRV
+SST = { culture = shan }
+STY = { province = 1863 } # province of Graz
+SUK = { province = 601 }
+#SUL
+#SUN
+SUS = {
+	province = 955
+	culture = susquehannock
+}
+SWE = { culture = swedish }
+SWI = {
+	area = switzerland_area
+	culture = swiss
+}
+#SYG
+SYO = { province = 4080 }
+SYR = { area = syria_area }
+#TAB
+#TAR
+TAU = { province = 585 }
+TBK = { province = 4045 }
+TER = { province = 649 }
+#TEU
+TFL = { 
+	area = tafilalt_area
+	province = 346 
+}
+TGT = { province = 2456 }
+THU = {
+	area = thuringia_area
+	province = 63
+}
+TIB = {
+	region = tibet_region
+	culture = tibetan
+}
+TID = { province = 650 }
+#TIM
+TIR = { area = tirol_area }
+#TKD
+#TKG
+TLA = {
+	province = 849
+	culture = tlapanec
+}
+TLC = { province = 336 }
+TLX = { province = 850 }
+#TMB
+#TNG
+#TOK
+TOT = { culture = totonac }
+TOU = { province = 196 }
+TPA = { culture = tupinamba }
+#TPQ
+TPR = { province = 2091 }
+TRA = { culture = transylvanian }
+TRE = { province = 330 }
+TRI = { province = 80 }
+TRP = { 
+	province = 354
+	area = tripolitania_area
+}
+TRT = { province = 2047 }
+#TUA
+TUN = {
+	province = 341
+	culture = tunisian
+}
+#TUR
+TUS = { area = tuscany_area }
+TVE = { province = 294 }
+#TYO
+TYR = { province = 372 }	# province of Tir Eoghain
+#UBH
+#UES
+UKR = {
+	region = ruthenia_region
+	culture = ruthenian
+}
+ULM = { province = 1872 }
+ULS = { province = 4121 }
+URB = { province = 2977 }
+#USA -- independent colonial
+UTR = { province = 98 }
+#UTS
+VEN = { province = 112 }
+VER = { province = 54 }	# province of Stade
+VIE = { province = 614 }
+VIJ = { province = 541 }
+#VND
+#VNZ -- independent colonial
+VOL = { province = 279 }
+WAL = { area = wallachia_area }
+#WAR
+WBG = { province = 79 }
+WCR = {
+	culture = cree
+	province = 1000		# actually found in a nearby province in-game
+}
+WES = { area = westphalia_area }
+WIC = {
+	culture = wichita
+	province = 892		# actually found in a nearby province in-game
+}
+#WKA
+WLS = {
+	area = wales_area
+	culture = welsh
+}
+WLY = { province = 2756 }
+WUR = { province = 70 }	# province of Stuttgart
+WUU = { culture = wu }
+#XIU
+YAK = {
+	province = 4085
+	culture = yaka
+}
+#YAN
+#YAO
+YAR = {  province = 308 }
+#YAT
+#YMN
+#YOR
+#YUE
+#ZAF
+ZAN = { culture = swahili }
+ZAP = {
+	province = 844
+	culture = zapotek
+}
+ZAZ = { province = 283 }
+#ZIM
+#ZUN
+#ZZZ
